@@ -8,6 +8,7 @@ use std::io::{BufReader, Write};
 use std::net::Shutdown;
 use std::net::{TcpListener, TcpStream};
 use std::sync::Mutex;
+use std::thread;
 
 mod commands;
 
@@ -29,7 +30,7 @@ fn main() {
     for stream in listener.incoming() {
         let stream = stream.unwrap();
         println!("New connection for: {:?}", stream);
-        handle_client(stream);
+        thread::spawn(|| handle_client(stream));
     }
 }
 
